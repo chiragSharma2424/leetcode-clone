@@ -1,10 +1,26 @@
-# simple leetcode clone
--> this repo contains code of simple leetcode 
--> we know that in leetcode we have to solve problems of dsa
--> to create frontend we need html, css, js, react, tailwind, mui
--> for backend we need node, express, mongoDB, redis
--> in backend we also need compilers of langauge to run the code
--> like for c++ we need mingw, for java jdk
--> we dont run code of file that is coming from fontend we can use judege0
--> judege0 will run the code just we have to call the api
--> judege0 contains all code to execute the code of any language online
+# Simple LeetCode Clone  
+
+This repository contains the code for a **simple LeetCode clone** where users can practice solving DSA (Data Structures and Algorithms) problems.  
+
+## Tech Stack  
+
+### Frontend  
+- HTML, CSS, JavaScript  
+- React  
+- Tailwind CSS  
+- Material UI (MUI)  
+
+### Backend  
+- Node.js  
+- Express.js  
+- MongoDB (database)  
+- Redis (caching and session management)  
+
+### Code Execution  
+- For running code, instead of compiling directly on the backend, we use [Judge0] – an open-source API for online code execution.  
+- Judge0 supports multiple languages like **C++, Java, Python, JavaScript**, etc.  
+- This ensures safety and scalability since code is executed in isolated environments.  
+
+### Notes  
+- We don’t execute raw code files from the frontend directly on our server for security reasons.  
+- For local compilation, tools like **MinGW (for C++)** or **JDK (for Java)** may be used, but in production, **Judge0 API** is preferred.  
