@@ -24,3 +24,16 @@ This repository contains the code for a **simple LeetCode clone** where users ca
 ### Notes  
 - We don’t execute raw code files from the frontend directly on our server for security reasons.  
 - For local compilation, tools like **MinGW (for C++)** or **JDK (for Java)** may be used, but in production, **Judge0 API** is preferred.  
+
+### Apis
+- User authentication - two types of user [User | Admin]
+- In user we have register, login, logout, me, email-verify, reset-password, forgot-password, Google-Signup
+- To create problems
+- Submit problem
+- Questions (dsa problems)
+- Editorial
+
+### Schema
+- User - firstName, lastName, email, role, password, solvedProblems
+- Problems - title, testCases, hiddenTestCases, initialCode with language, real solution, acceptedTestCases
+- Submit - userSolution, problemId, solution | accept | reject
