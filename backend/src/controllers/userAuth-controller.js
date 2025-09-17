@@ -46,3 +46,53 @@ async function register(req, res) {
         })
     }
 }
+
+
+// login controller
+async function login(req, res) {
+    try {
+        const { emailId, password } = req.body;
+
+        if(!emailId) {
+            throw new Error("Invalid credentials");
+        }
+        if(!password) {
+            throw new Error("Invalid credentials");
+        }
+
+        const user = userModel.findOne({ emailId });
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+        if(!isValidPassword) {
+            throw new Error("Invalid credentials");
+        }
+
+        const token = jwt.sign({_id: user._id, emailId: user._id}, process.env.JWT_SECRET, { expiresIn: '1h '});
+        res.cookie('token', token, { maxAge: 60*60*1000 });
+
+        return res.status(200).json({
+            msg: "user logged in successfully"
+        })
+
+    } catch(err) {
+        console.log(`error in login controller ${err}`);
+        return res.status(500).json({
+            msg: "Internal server error"
+        })
+    }
+}
+
+
+
+// logout controller
+async function logout(req, res) {
+    try {
+        
+    } catch(err) {
+        console.log(`error in logout controller ${err}`);
+        return res.status(500).json({
+            msg: "internal server error"
+        })
+    }
+}
