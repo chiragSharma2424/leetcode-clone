@@ -9,7 +9,7 @@ async function register(req, res) {
     try {
         // we have to validate data
         validate(req.body);
-        const { firstName, emailId, password } = req.body;
+        const { firstName, emailId, password, lastName } = req.body;
 
         const existingUser = await userModel.findOne({ emailId });
         if(existingUser) {
@@ -23,6 +23,7 @@ async function register(req, res) {
         // creating user in db
         const user = await userModel.create({
             firstName: firstName,
+            lastName: lastName,
             emailId: emailId,
             password: hashedPassword
         });
@@ -60,7 +61,7 @@ async function login(req, res) {
             throw new Error("Invalid credentials");
         }
 
-        const user = userModel.findOne({ emailId });
+        const user = await userModel.findOne({ emailId });
 
         const isValidPassword = await bcrypt.compare(password, user.password);
 
@@ -68,11 +69,12 @@ async function login(req, res) {
             throw new Error("Invalid credentials");
         }
 
-        const token = jwt.sign({_id: user._id, emailId: user._id}, process.env.JWT_SECRET, { expiresIn: '1h '});
+        const token = jwt.sign({_id: user._id, emailId: user._id}, process.env.JWT_SECRET, { expiresIn: '1h'});
         res.cookie('token', token, { maxAge: 60*60*1000 });
 
         return res.status(200).json({
-            msg: "user logged in successfully"
+            msg: "user logged in successfully",
+            token
         })
 
     } catch(err) {
@@ -88,7 +90,8 @@ async function login(req, res) {
 // logout controller
 async function logout(req, res) {
     try {
-        
+      // validate the token
+      // token added to redis to blocklist
     } catch(err) {
         console.log(`error in logout controller ${err}`);
         return res.status(500).json({
@@ -96,3 +99,6 @@ async function logout(req, res) {
         })
     }
 }
+
+
+export { register, login, logout };
