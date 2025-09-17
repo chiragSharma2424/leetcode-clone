@@ -32,8 +32,9 @@ This repository contains the code for a **simple LeetCode clone** where users ca
 - Submit problem
 - Questions (dsa problems)
 - Editorial
+- we can integrate ai also
 
 ### Schema
-- User - firstName, lastName, email, role, password, solvedProblems
-- Problems - title, testCases, hiddenTestCases, initialCode with language, real solution, acceptedTestCases
+- User - firstName, lastName, email, role, password, solvedProblems, images
+- Problems - title, testCases, hiddenTestCases, initialCode with language, real solution, acceptedTestCases, videoSolution
 - Submit - userSolution, problemId, solution | accept | reject
