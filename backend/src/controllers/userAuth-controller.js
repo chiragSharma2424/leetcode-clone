@@ -20,6 +20,9 @@ async function register(req, res) {
 
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // this line will register user as "user" only not admin
+        req.body.role = 'user'
+
         // creating user in db
         const user = await userModel.create({
             firstName: firstName,
@@ -30,7 +33,7 @@ async function register(req, res) {
 
         
         // jwt.sign('payload', 'key', 'time')
-        const token = jwt.sign({ _id: user._id, emailId: emailId }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ _id: user._id, emailId: emailId, role: 'user'}, process.env.JWT_SECRET, { expiresIn: '1h' });
         // setting token in cookie
         res.cookie('token', token, {maxAge: 60*60*1000});
 
@@ -69,14 +72,14 @@ async function login(req, res) {
             throw new Error("Invalid credentials");
         }
 
-        const token = jwt.sign({_id: user._id, emailId: user._id}, process.env.JWT_SECRET, { expiresIn: '1h'});
+        const token = jwt.sign({_id: user._id, emailId: user._id, role: user.role}, process.env.JWT_SECRET, { expiresIn: '1h'});
         res.cookie('token', token, { maxAge: 60*60*1000 });
 
         return res.status(200).json({
             msg: "user logged in successfully",
             token
-        })
-
+        });
+        
     } catch(err) {
         console.log(`error in login controller ${err}`);
         return res.status(500).json({
@@ -92,6 +95,11 @@ async function logout(req, res) {
     try {
       // validate the token
       // token added to redis to blocklist
+
+        res.clearCookie("token");
+        return res.status(200).json({
+            msg: "user logged out successfully"
+        })
     } catch(err) {
         console.log(`error in logout controller ${err}`);
         return res.status(500).json({
@@ -101,4 +109,28 @@ async function logout(req, res) {
 }
 
 
-export { register, login, logout };
+
+// admin register
+async function adminRegister(req, res) {
+    try {
+        validate(req.body);
+        const { firstName, emailId, password } = req.body;
+
+        req.body.password = await bcrypt.hash(password, 10);
+        req.body.role = 'admin'
+
+        const user = await userModel.create(req.body);
+        const token = jwt.sign({_id:user._id, emailId: emailId, role: 'user'}, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.cookie('token', token, { maxAge: 60*60*1000 });
+        res.status(201).json({
+            msg: "Admin registered successfully"
+        });
+    } catch(err) {
+        console.log(`error in admin register ${err}`);
+        return res.status(500).json({
+            msg: "Internal server error"
+        })
+    }
+}
+
+export { register, login, logout, adminRegister };
