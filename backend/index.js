@@ -18,6 +18,7 @@ app.use(cookieParser());
 app.use('/user', authRouter);
 app.use('/admin', authRouter);
 
+
 app.get('/', (req, res) => {
     return res.status(200).json({
         msg: "dummy route"

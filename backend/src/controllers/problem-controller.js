@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import problemModel from '../models/problem-model.js';
 dotenv.config();
 
-const problemCreate = async (req, res) => {
+const createProblem = async (req, res) => {
     try {
 
     } catch(err) {
@@ -13,7 +13,7 @@ const problemCreate = async (req, res) => {
     }
 }
 
-const problemUpdate = async (req, res) => {
+const updateProblem = async (req, res) => {
     try {
 
     } catch(err) {
@@ -24,7 +24,7 @@ const problemUpdate = async (req, res) => {
     }
 }
 
-const problemDelete = async (req, res) => {
+const deleteProblem = async (req, res) => {
     try {
 
     } catch(err) {
@@ -37,7 +37,7 @@ const problemDelete = async (req, res) => {
 
 
 export {
-    problemCreate,
-    problemUpdate,
-    problemDelete
+    createProblem,
+    deleteProblem,
+    updateProblem
 }
